@@ -10,10 +10,12 @@ import path from 'path';
 // The built output will be at: <cwd>/dist/output/<id>/dist/
 const OUTPUT_BASE = path.join(process.cwd(), "dist", "output");
 
-const subscriber = createClient();
+const redisOptions = process.env.REDIS_URL ? { url: process.env.REDIS_URL } : {};
+
+const subscriber = createClient(redisOptions);
 await subscriber.connect();
 
-const publisher = createClient();
+const publisher = createClient(redisOptions);
 await publisher.connect();
 
 async function main() {
